@@ -4,10 +4,13 @@ import datetime
 import ntpath
 import pandas as pd
 
-def fund_csv_reader(csv_dir):
+def fund_csv_reader(csv_dir, chosen_funds=None):
     '''read the csvs and make sure they have the same length'''
     fund_csv_list = os.listdir(csv_dir)
     fund_csv_path_list = [os.path.join(csv_dir, x) for x in fund_csv_list]
+    all_funds_id = set([x[:-4] for x in fund_csv_list])
+    if chosen_funds is None:
+        chosen_funds = all_funds_id.copy()
     dates = set()
 
     # get a vague range of date
@@ -17,6 +20,8 @@ def fund_csv_reader(csv_dir):
     for fund_csv_path in fund_csv_path_list:
         fund_df = pd.read_csv(fund_csv_path)
         fund_id = ntpath.basename(fund_csv_path)[:-4]
+        if fund_id not in chosen_funds:
+            continue
         for i, row in fund_df.iterrows():
             date_str = row['date']
             month = str(date_str[-5:-3])

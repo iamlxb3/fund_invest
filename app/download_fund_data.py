@@ -31,8 +31,11 @@ import tushare as ts
 # 511010 [国泰上证国债ETF]
 
 # 大宗商品ETF
-# 518880 [华安黄金易ETF]
-# 159934 [易方达黄金ETF]
+# 518880 [华安黄金易ETF] 50.67亿元
+# 159934 [易方达黄金ETF] 11.45亿元
+
+# 513500 标普500
+# 513100 纳指ETF
 
 # TODO add more fund list
 
@@ -48,13 +51,16 @@ zq_etf = ['511220', '511010']
 # 大宗商品
 dzsp_etf = ['518880', '159934']
 
-fund_id_list = gngp_etf + hwgp_etf + zq_etf + dzsp_etf
+# 其他
+others = ['513500', '513100']
+
+fund_id_list = gngp_etf + hwgp_etf + zq_etf + dzsp_etf + others
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # skip the downloaded
 # ----------------------------------------------------------------------------------------------------------------------
-is_skip = False
+is_skip = True
 if is_skip:
     fund_ids = os.listdir(fund_dir)
     fund_ids_set = set([x[:-4] for x in fund_ids])

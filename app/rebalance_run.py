@@ -23,24 +23,26 @@ from general.data_visual import DataVisualizer
 is_plot = True
 
 # filter fund
-chosen_fund = {'159920', '510500', '159934'}
+chosen_funds = {'513100', '513500', '510500','510900', '510050', '510300'}
 
 # chosen date range
-date_range = ('2016-01-01', '2018-03-30')
+#date_range = ('2014-01-30', '2017-01-30')
+date_range = ('2017-01-30', '2018-03-30')
 
 capital = 100
-trade_frequency = 6 # month
+trade_frequency = 12 # month
 # ----------------------------------------------------------------------------------------------------------------------
 
 
 # ----------------------------------------------------------------------------------------------------------------------
 # read and clean dfs
 # ----------------------------------------------------------------------------------------------------------------------
-sorted_dates, fund_dfs = fund_csv_reader(fund_dir)
+sorted_dates, fund_dfs = fund_csv_reader(fund_dir, chosen_funds=chosen_funds)
+print("sorted_dates: ", sorted_dates)
 
 delete_ids= []
 for id, df in fund_dfs.items():
-    if id not in chosen_fund:
+    if id not in chosen_funds:
         delete_ids.append(id)
 
 for id in delete_ids:
@@ -64,7 +66,6 @@ print ('------------------------------------------------------------------------
 # rebanlance
 # ----------------------------------------------------------------------------------------------------------------------
 rebalancer = Rebalance(fund_dfs, sorted_dates, capital=capital)
-
 
 # (1.) rebanlance
 # trade_frequency : trade every N months

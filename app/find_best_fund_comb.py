@@ -20,30 +20,34 @@ from strategy.rebalance import Rebalance
 from general.data_visual import DataVisualizer
 
 
-# ----------------------------------------------------------------------------------------------------------------------
-# read in data frames
-# ----------------------------------------------------------------------------------------------------------------------
-# read the csvs and make sure they have the same length
-sorted_dates, orgin_fund_dfs = fund_csv_reader(fund_dir)
-print ("sorted_dates total: {}, from {} to {}".format(len(sorted_dates), sorted_dates[0], sorted_dates[-1]))
-# ----------------------------------------------------------------------------------------------------------------------
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 # config
 # ----------------------------------------------------------------------------------------------------------------------
 is_verbose = False
 is_plot_save_individual_fund = False
-comb_num = (3,5) # itertools.combinations is robust, you don't have to consider the number of funds
-trade_frequency_list = (6,12)
+comb_num = (3,) # itertools.combinations is robust, you don't have to consider the number of funds
+trade_frequency_list = (6,)
 #trade_frequency_list = (1,2,3,4,5,6,7,8,9,10,11,12,13,14)
 #trade_frequency_list = (1,2) # month
 # exclude funds
-exclude_funds = {'511010'} # set()
+all_funds = os.listdir(fund_dir)
+all_funds = set([x[:-4] for x in all_funds])
+exclude_funds = { '510440', '510330', '159934', '159919'} # set()
+keep_funds = all_funds - exclude_funds
 
 # chosen date range
-date_range = ('2014-01-01', '2018-03-30')
-shift_num = 6
+date_range = ('2014-01-30', '2017-03-30')
+shift_num = 12
+# ----------------------------------------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# read in data frames
+# ----------------------------------------------------------------------------------------------------------------------
+# read the csvs and make sure they have the same length
+sorted_dates, orgin_fund_dfs = fund_csv_reader(fund_dir, chosen_funds=keep_funds)
+print ("sorted_dates total: {}, from {} to {}".format(len(sorted_dates), sorted_dates[0], sorted_dates[-1]))
 # ----------------------------------------------------------------------------------------------------------------------
 
 
@@ -215,8 +219,9 @@ print ("df_shape: ", comb_result_df.shape)
 plot_save_dir = os.path.join(top_dir, 'plot')
 data_visualize.box_plot(comb_result_df, x='comb', y='final_capital', save_path=os.path.join(plot_save_dir,
                                                                                                 'comb_1'))
-data_visualize.box_plot(comb_result_df, x='comb', y='max_drawdown', save_path=os.path.join(plot_save_dir,
-                                                                                                'comb_2'))
+
+# data_visualize.box_plot(comb_result_df, x='comb', y='max_drawdown', save_path=os.path.join(plot_save_dir,
+#                                                                                                 'comb_2'))
 
 data_visualize.box_plot(comb_result_df, x='comb_num', y='final_capital', save_path=os.path.join(plot_save_dir,
                                                                                                 'comb_num_1'))
@@ -236,6 +241,6 @@ if is_plot_save_individual_fund:
         data_visualize.box_plot(comb_result_df, x=fund_id, y='max_drawdown'
                                 , save_path=os.path.join(plot_save_dir, 'trade_f_{}_2'.format(fund_id)))
 
-print ("---------------------fund_comb_id_name_dict---------------------")
-for id, name in sorted(fund_comb_id_name_dict.items(), key=lambda x:x[0]):
-    print ("{}-{}".format(id, name))
+# print ("---------------------fund_comb_id_name_dict---------------------")
+# for id, name in sorted(fund_comb_id_name_dict.items(), key=lambda x:x[0]):
+#     print ("{}-{}".format(id, name))
