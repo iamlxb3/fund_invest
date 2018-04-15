@@ -26,10 +26,13 @@ trade_frequency = 12
 
 all_funds = os.listdir(fund_dir)
 all_funds = set([x[:-4] for x in all_funds])
-exclude_funds = { '510440', '510330', '159934', '159919'} # set()
-keep_funds = all_funds - exclude_funds
 
-sorted_dates, orgin_fund_dfs = fund_csv_reader(fund_dir, chosen_funds=keep_funds)
+# exclude funds
+#exclude_funds = { '510440', '510330', '159934', '159919'} # set()
+#keep_funds = all_funds - exclude_funds
+#
+
+sorted_dates, orgin_fund_dfs = fund_csv_reader(fund_dir, chosen_funds=all_funds)
 print ("sorted_dates total: {}, from {} to {}".format(len(sorted_dates), sorted_dates[0], sorted_dates[-1]))
 
 invest_open_dict = collections.defaultdict(lambda :[])
