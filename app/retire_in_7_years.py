@@ -3,18 +3,21 @@ import pandas as pd
 
 
 initial_salary = 130000 # 起始资金
-keep_percent_per_year = 0.7 # 每年存下来的钱（百分比）
+max_salary = 350000 # 到手工资上限
+keep_percent_per_year = 0.6 # 每年存下来的钱（百分比）
 add_salary_frequency = 2 # 每两年涨一次薪水
 year_add_percent = 0.2 # 每一次的工资涨幅
 fund_profit_percent = 0.1 # 投资年化收益率，假设存下来的钱全部用于投资
 
-compute_year = 10
+compute_year = 8
 salary = initial_salary
 money = 0
 
 for i in range(compute_year):
     if (i+1) % add_salary_frequency == 0:
         salary += year_add_percent * salary # 今年工资
+        if salary >= max_salary:
+            salary = max_salary
     invest_profit = (fund_profit_percent + 1) * money # 上一年投资盈利
     kept_salary = salary * keep_percent_per_year # 去除开支之后今年存下来的钱
     money = kept_salary + invest_profit # 今年存下的工资 + 上一年的投资获利
