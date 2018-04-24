@@ -9,7 +9,7 @@ add_salary_frequency = 2 # 每两年涨一次薪水
 year_add_percent = 0.2 # 每一次的工资涨幅
 fund_profit_percent = 0.1 # 投资年化收益率，假设存下来的钱全部用于投资
 
-compute_year = 8
+compute_year = 3
 salary = initial_salary
 money = 0
 
